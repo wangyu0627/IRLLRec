@@ -7,3 +7,15 @@ You can download semantic embedding files in the following datasets:
 - Amazon-book [[Google Drive]](https://drive.google.com/drive/folders/16-Kg_GMJTlIj7HWajgT2Xbi27oP8VRme?usp=drive_link)
 - Yelp [[Google Drive]](https://drive.google.com/drive/folders/1cghgUwFP7FyYaPTA4jKgbvxmcs_hjZ2c?usp=drive_link)
 - Amazon-movie [[Google Drive]](https://drive.google.com/drive/folders/1eeaEHLJFYH9Kc_-Y81473tMiAPaGcQVV?usp=drive_link)
+
+Each dataset consists of a training set, a validation set, and a test set. During the training process, we utilize the validation set to determine when to stop the training in order to prevent overfitting.
+
+- book (yelp/movie)
+|--- trn_mat.pkl # training set (sparse matrix)
+|--- val_mat.pkl # validation set (sparse matrix)
+|--- tst_mat.pkl # test set (sparse matrix)
+|--- usr_emb_np.pkl # user text embeddings
+|--- itm_emb_np.pkl # item text embeddings
+|--- user_intent_emb_3.pkl # user intent embeddings
+|--- item_intent_emb_3.pkl # item intent embeddings
+
