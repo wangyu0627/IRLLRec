@@ -19,7 +19,7 @@ Each dataset consists of a training set, a validation set, and a test set. Durin
 |--- itm_emb_np.pkl # item text embeddings
 |--- user_intent_emb_3.pkl # user intent embeddings
 |--- item_intent_emb_3.pkl # item intent embeddings
-```plaintext
+```**
 
 # 🚀 Examples to run the codes
 
