@@ -1,0 +1,48 @@
+optimizer:
+  name: adam
+  lr: 1.0e-3
+  weight_decay: 0
+
+train:
+  epoch: 3000
+  batch_size: 1024
+  save_model: false
+  loss: pairwise
+  test_step: 1
+  reproducible: true
+  seed: 2023
+  patience: 20
+
+test:
+  metrics: [recall, ndcg]
+  k: [5, 10, 20]
+  batch_size: 1024
+
+data:
+  type: general_cf
+  name: amazon
+
+
+model:
+  name: alpharec
+  # general parameters here
+  keep_rate: 1.0
+  embedding_size: 32
+  lm_model: text-embedding-ada-002
+  tau: 0.15
+
+  # dataset-specific parameters here
+  layer_num: 3
+  reg_weight: 1.0e-6
+  # for amazon
+  amazon:
+    layer_num: 2
+    reg_weight: 1.0e-6
+  # for yelp
+  yelp:
+    layer_num: 2
+    reg_weight: 1.0e-6
+  # for steam
+  steam:
+    layer_num: 2
+    reg_weight: 1.0e-6
