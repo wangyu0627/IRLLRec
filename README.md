@@ -41,6 +41,7 @@ The command to evaluate the backbone models and RLMRec is as follows.
   python encoder/train_encoder.py --model {model_name}_int --dataset {dataset} --cuda 0
 
 Hyperparameters:
+
 The hyperparameters of each model are stored in encoder/config/modelconf (obtained by grid-search).
 
 
