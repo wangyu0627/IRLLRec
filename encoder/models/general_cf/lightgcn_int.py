@@ -1,15 +1,13 @@
-import pickle
 import torch as t
 from torch import nn
 import numpy as np
 import scipy.sparse as sp
 import torch_sparse
 from config.configurator import configs
-from models.loss_utils import cal_bpr_loss, reg_params, cal_infonce_loss
+from models.loss_utils import cal_bpr_loss, reg_params, cal_infonce_loss, ssl_con_loss
 from models.base_model import BaseModel
-from models.general_cf.moe import MoE
 from models.model_utils import SpAdjEdgeDrop
-
+import torch.nn.functional as F
 init = nn.init.xavier_uniform_
 uniformInit = nn.init.uniform
 
@@ -46,8 +44,10 @@ class LightGCN_int(BaseModel):
         self.reg_weight = self.hyper_config['reg_weight']
         self.kd_weight = self.hyper_config['kd_weight']
         self.kd_temperature = self.hyper_config['kd_temperature']
-        self.kd_int_weight = self.hyper_config['kd_int_weight']
+        self.kd_int_weight_1 = self.hyper_config['kd_int_weight_1']
         self.kd_int_temperature = self.hyper_config['kd_int_temperature']
+        self.kd_int_weight_2 = self.hyper_config['kd_int_weight_2']
+        self.kd_int_weight_3 = self.hyper_config['kd_int_weight_3']
 
         # semantic-embeddings
         self.usrprf_embeds = t.tensor(configs['usrprf_embeds']).float().cuda()
@@ -68,15 +68,14 @@ class LightGCN_int(BaseModel):
             nn.LeakyReLU(),
             nn.Linear((self.usrint_embeds.shape[1] + self.embedding_size) // 2, self.embedding_size)
         )
-        # self.int_mlp = MoE(
-        #     input_size=self.usrint_embeds.shape[1],
-        #     output_size=self.embedding_size,
-        #     num_experts=4,  # Number of experts
-        #     top_k=2,  # Number of top experts to use
-        #     dropout=0.2,
-        #     noise=True
-        # )
-
+        self.int_mlp_m = nn.Sequential(
+            nn.Linear(self.usrint_embeds.shape[1], (self.usrint_embeds.shape[1] + self.embedding_size) // 2),
+            nn.LeakyReLU(),
+            nn.Linear((self.usrint_embeds.shape[1] + self.embedding_size) // 2, self.embedding_size)
+        )
+        self.model_pairs = [[self.int_mlp, self.int_mlp_m]]
+        self.copy_params()
+        self.momentum = 0.999
         self._init_weight()
 
     def _init_weight(self):
@@ -86,6 +85,18 @@ class LightGCN_int(BaseModel):
         for m in self.int_mlp:
             if isinstance(m, nn.Linear):
                 init(m.weight)
+    @t.no_grad()
+    def copy_params(self):
+        for model_pair in self.model_pairs:
+            for param, param_m in zip(model_pair[0].parameters(), model_pair[1].parameters()):
+                param_m.data.copy_(param.data)  # initialize
+                param_m.requires_grad = False  # not update by gradient
+
+    @t.no_grad()
+    def _momentum_update(self):
+        for model_pair in self.model_pairs:
+            for param, param_m in zip(model_pair[0].parameters(), model_pair[1].parameters()):
+                param_m.data = param_m.data * self.momentum + param.data * (1. - self.momentum)
 
     def _propagate(self, adj, embeds):
         return t.spmm(adj, embeds)
@@ -175,9 +186,28 @@ class LightGCN_int(BaseModel):
                               cal_infonce_loss(pos_int_embeds, posint_embeds, posint_embeds, self.kd_int_temperature) + \
                               cal_infonce_loss( neg_int_embeds, negint_embeds, negint_embeds, self.kd_int_temperature)
         kd_int_loss /= anc_embeds.shape[0]
-        kd_int_loss *= self.kd_int_weight
+        kd_int_loss *= self.kd_int_weight_1
 
-        loss = bpr_loss + reg_loss + kd_loss + kd_int_loss
+        # kd_int_2_loss
+        all_embeds = t.cat([user_embeds, item_embeds], dim=0)
+        all_int_embeds = t.cat([usrint_embeds, itmint_embeds], dim=0)
+        noise_1 = t.randn_like(all_int_embeds)
+        noise_2 = t.randn_like(all_embeds)
+        noise_embeds_1 = all_int_embeds + all_int_embeds * noise_1
+        noise_embeds_2 = all_embeds + all_embeds * noise_2
+        kd_int_2_loss =  ssl_con_loss(noise_embeds_1, noise_embeds_2)
+        kd_int_2_loss *= self.kd_int_weight_2
+
+        # itm_loss
+        self._momentum_update()
+        usrint_embeds_m = self.int_mlp_m(self.usrint_embeds)
+        itmint_embeds_m = self.int_mlp_m(self.itmint_embeds)
+        int_embeds_m = t.cat([usrint_embeds_m, itmint_embeds_m], dim=0)
+        loss_itm = t.sum(F.log_softmax(all_int_embeds, dim=1)*F.softmax(int_embeds_m, dim=1),dim=1).mean()
+        loss_itm = 0.4*kd_int_2_loss - 0.6*loss_itm
+        loss_itm *= self.kd_int_weight_3
+
+        loss = bpr_loss + reg_loss + kd_loss + kd_int_loss + kd_int_2_loss + loss_itm
         losses = {'bpr_loss': bpr_loss, 'reg_loss': reg_loss, 'kd_loss': kd_loss, 'kd_int_loss': kd_int_loss}
         return loss, losses
 
