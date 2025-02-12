@@ -37,7 +37,7 @@ The command to evaluate the backbone models and RLMRec is as follows.
 
 - **IRLLRec**
   ```bash
-  python encoder/train_encoder.py --model {model_name}_int --dataset {dataset} --cuda 0
+  python encoder/train_encoder.py --model lightgcn_int --dataset movie --cuda 0
 
 Hyperparameters:
 
