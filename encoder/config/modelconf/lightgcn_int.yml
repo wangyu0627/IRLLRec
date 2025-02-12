@@ -42,9 +42,11 @@ model:
     kd_weight: 1.0e-2
     kd_temperature: 0.2
 #    kd_int_weight: 2.0e-2
-    kd_int_weight: 1.0e-4
+    kd_int_weight_1: 2.0e-2
     kd_int_temperature: 0.2
-    kd_int_weight_2: 1.0e-3
+    kd_int_weight_2: 5.0e-4
+    kd_int_weight_3: 1.0e-4
+
   # for yelp
   yelp:
     layer_num: 3
@@ -52,9 +54,11 @@ model:
     kd_weight: 1.0e-2
     kd_temperature: 0.2
 #    kd_int_weight: 1.0e-2
-    kd_int_weight: 1.0e-4
+    kd_int_weight_1: 1.0e-2
     kd_int_temperature: 0.2
-    kd_int_weight_2: 1.0e-3
+    kd_int_weight_2: 5.0e-4
+    kd_int_weight_3: 1.0e-4
+
   # for movie
   movie:
     layer_num: 3
