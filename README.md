@@ -5,7 +5,7 @@ We are organizing the code as quickly as possible. If there are any issues, plea
 
 You can download semantic embedding files in the following datasets:
 
-**Amazon-book**/ **Yelp**/ **Amazon-movie** [[Google Drive]](https://drive.google.com/file/d/1PzePFsBcYofG1MV2FisFLBM2lMytbMdW/view)
+**Amazon-book**/ **Yelp**/ **Amazon-movie** [[Google Drive]](https://drive.google.com/file/d/18gt8SNI2gpTJE5pshZ69Cy_EnqLrpY1X/view)
 
 Each dataset consists of a training set, a validation set, and a test set. During the training process, we utilize the validation set to determine when to stop the training in order to prevent overfitting.
 
