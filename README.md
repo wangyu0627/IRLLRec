@@ -3,7 +3,7 @@ Yu Wang, Lei Sang*, Yi Zhang and Yiwen Zhang. [[Paper link]](https://arxiv.org/a
 
 We are organizing the code as quickly as possible. If there are any issues, please stay tuned to anonymous GitHub.
 ## Model Architecture
-<img src='model_IHGCL.png' />
+<img src='model.png' />
 
 You can download semantic embedding files in the following datasets:
 
