@@ -1,7 +1,6 @@
 # [SIGIR 2025] IRLLRec: Intent Representation Learning with Large Language Model for Recommendation
 Yu Wang, Lei Sang*, Yi Zhang and Yiwen Zhang. [[Paper link]](https://arxiv.org/abs/2502.03307)
 
-We are organizing the code as quickly as possible. If there are any issues, please stay tuned to anonymous GitHub.
 ## Model Architecture
 <img src='model.png' />
 
