@@ -44,4 +44,16 @@ Hyperparameters:
 
 The hyperparameters of each model are stored in encoder/config/modelconf (obtained by grid-search).
 
+## Citation
+
+If you find this useful for your research, please kindly cite the following paper:
+
+```bibtex
+@article{2025IRLLRec,
+  title={Intent Representation Learning with Large Language Model for Recommendation},
+  author={Wang, Yu and Sang, Lei and Zhang, Yi and Zhang, Yiwen},
+  journal={arXiv preprint arXiv:2502.03307},
+  year={2025}
+}
+
 
