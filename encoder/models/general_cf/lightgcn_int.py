@@ -44,7 +44,7 @@ class LightGCN_int(BaseModel):
         self.reg_weight = self.hyper_config['reg_weight']
         self.kd_weight = self.hyper_config['kd_weight']
         self.kd_temperature = self.hyper_config['kd_temperature']
-        self.kd_int_weight_1 = self.hyper_config['kd_int_weight_1']
+        self.kd_int_weight = self.hyper_config['kd_int_weight']
         self.kd_int_temperature = self.hyper_config['kd_int_temperature']
         self.kd_int_weight_2 = self.hyper_config['kd_int_weight_2']
         self.kd_int_weight_3 = self.hyper_config['kd_int_weight_3']
@@ -83,6 +83,9 @@ class LightGCN_int(BaseModel):
             if isinstance(m, nn.Linear):
                 init(m.weight)
         for m in self.int_mlp:
+            if isinstance(m, nn.Linear):
+                init(m.weight)
+        for m in self.int_mlp_m:
             if isinstance(m, nn.Linear):
                 init(m.weight)
     @t.no_grad()
@@ -186,7 +189,7 @@ class LightGCN_int(BaseModel):
                               cal_infonce_loss(pos_int_embeds, posint_embeds, posint_embeds, self.kd_int_temperature) + \
                               cal_infonce_loss( neg_int_embeds, negint_embeds, negint_embeds, self.kd_int_temperature)
         kd_int_loss /= anc_embeds.shape[0]
-        kd_int_loss *= self.kd_int_weight_1
+        kd_int_loss *= self.kd_int_weight
 
         # kd_int_2_loss
         all_embeds = t.cat([user_embeds, item_embeds], dim=0)
