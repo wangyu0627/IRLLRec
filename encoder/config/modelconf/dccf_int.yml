@@ -45,9 +45,10 @@ model:
     cl_temperature: 0.1
     kd_weight: 1.0e-2
     kd_temperature: 0.5
-#    kd_int_weight: 2.0e-2
     kd_int_weight: 2.0e-2
     kd_int_temperature: 0.1
+    kd_int_weight_2: 5.0e-4
+    kd_int_weight_3: 1.0e-4
   # for yelp
   yelp:
     layer_num: 2
@@ -56,19 +57,10 @@ model:
     cl_temperature: 0.1
     kd_weight: 1.0e-2
     kd_temperature: 0.2
-#    kd_int_weight: 1.0e-2
-    kd_int_weight: 1.0e-4
-    kd_int_temperature: 0.2
-  # for steam
-  steam:
-    layer_num: 3
-    reg_weight: 1.0e-3
-    cl_weight: 1.0e-3
-    cl_temperature: 0.1
-    kd_weight: 1.0e-2
-    kd_temperature: 0.5
     kd_int_weight: 1.0e-2
-    kd_int_temperature: 1.0
+    kd_int_temperature: 0.2
+    kd_int_weight_2: 1.0e-3
+    kd_int_weight_3: 1.0e-4
   # for movie
   movie:
     layer_num: 3
@@ -77,7 +69,8 @@ model:
     cl_temperature: 0.1
     kd_weight: 1.0e-2
     kd_temperature: 0.1
-#    kd_int_weight: 5.0e-2
-    kd_int_weight: 1.0e-5
+    kd_int_weight: 5.0e-2
     kd_int_temperature: 0.2
+    kd_int_weight_2: 1.0e-3
+    kd_int_weight_3: 1.0e-4
 
