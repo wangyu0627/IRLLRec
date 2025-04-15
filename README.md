@@ -17,6 +17,8 @@ pip install torch-scatter -f https://data.pyg.org/whl/torch-1.13.1+cu117.html
 pip install torch-sparse -f https://data.pyg.org/whl/torch-1.13.1+cu117.html
 pip install pyyaml tqdm
 
+## 💡 Dataset Structure and Download
+
 You can download intent-based semantic embedding files in the following datasets:
 
 **Amazon-book**/ **Yelp**/ **Amazon-movie** [[Google Drive]](https://drive.google.com/file/d/18gt8SNI2gpTJE5pshZ69Cy_EnqLrpY1X/view)
