@@ -4,7 +4,20 @@ Yu Wang, Lei Sang*, Yi Zhang and Yiwen Zhang. [[Paper link]](https://arxiv.org/a
 ## Model Architecture
 <img src='model.png' />
 
-You can download semantic embedding files in the following datasets:
+## 🧰 Environment Setup for IRLLRec
+
+You can run the following command to download the codes faster:
+
+```bash
+conda create -y -n irllrec python=3.9
+conda activate irllrec
+pip install torch==1.13.1+cu116 torchvision==0.14.1+cu116 torchaudio==0.13.1 \
+    --extra-index-url https://download.pytorch.org/whl/cu116
+pip install torch-scatter -f https://data.pyg.org/whl/torch-1.13.1+cu117.html
+pip install torch-sparse -f https://data.pyg.org/whl/torch-1.13.1+cu117.html
+pip install pyyaml tqdm
+
+You can download intent-based semantic embedding files in the following datasets:
 
 **Amazon-book**/ **Yelp**/ **Amazon-movie** [[Google Drive]](https://drive.google.com/file/d/18gt8SNI2gpTJE5pshZ69Cy_EnqLrpY1X/view)
 
