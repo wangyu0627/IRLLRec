@@ -74,10 +74,10 @@ Many thanks to them for providing the training framework and for the active cont
 If you find this useful for your research, please kindly cite the following paper:
 
 ```bibtex
-@article{2025IRLLRec,
+@inproceedings{2025IRLLRec,
   title={Intent Representation Learning with Large Language Model for Recommendation},
   author={Wang, Yu and Sang, Lei and Zhang, Yi and Zhang, Yiwen},
-  journal={SIGIR},
+  booktitle={SIGIR},
   year={2025}
 }
 
