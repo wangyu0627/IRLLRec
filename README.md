@@ -58,7 +58,7 @@ The command to evaluate the backbone models and RLMRec is as follows.
 
 Hyperparameters:
 
-The hyperparameters of each model are stored in encoder/config/modelconf (obtained by grid-search).
+The hyperparameters of each model are stored in encoder/config/modelconf.
 
 ## 📝 Acknowledgement
 
