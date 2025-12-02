@@ -78,6 +78,7 @@ If you find this useful for your research, please kindly cite the following pape
   title={Intent Representation Learning with Large Language Model for Recommendation},
   author={Wang, Yu and Sang, Lei and Zhang, Yi and Zhang, Yiwen},
   booktitle={SIGIR},
+  pages={1870--1879},
   year={2025}
 }
 
